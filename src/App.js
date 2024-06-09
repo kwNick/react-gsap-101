@@ -1,10 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react';
 
 function App() {
   const headerRef = useRef(null);
-  console.log(headerRef)
+  // console.log(headerRef)
+  useGSAP(() => {
+    gsap.from(headerRef.current, {
+      duration: 1,
+      autoAlpha: 0,
+      ease: 'none',
+      delay: 1,
+    })
+  }, [])
   return (
     <div className="App">
       <header ref={headerRef} className="App-header">
