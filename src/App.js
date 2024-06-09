@@ -1,9 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 const sections = [
   {
     title: "Title 1",
@@ -46,13 +48,34 @@ function App() {
       ease: 'none',
       delay: 1,
     })
+
+    revealRefs.current.forEach((el, index) => {
+      gsap.fromTo(el,
+        {
+          autoAlpha: 0,
+        },
+        {
+          duration: 1,
+          autoAlpha: 1,
+          ease: 'none',
+          scrollTrigger: {
+            id: `section-${index + 1}`,
+            trigger: el,
+            start: 'top center+=100',
+            toggleActions: 'play none none reverse',
+            markers: true,
+
+          }
+        });
+
+    });
   }, []);
 
   const addToRefs = (el) => {
     if (el && !revealRefs.current.includes(el)) {
       revealRefs.current.push(el);
     }
-    console.log(revealRefs.current);
+    // console.log(revealRefs.current);
   }
 
   return (
